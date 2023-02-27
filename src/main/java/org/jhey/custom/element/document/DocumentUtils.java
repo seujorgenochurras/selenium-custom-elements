@@ -24,7 +24,7 @@ public class DocumentUtils {
    public static void waitToBeStalenessOf(WebElement webElement, WebDriver webDriver, Duration duration) {
       try {
          new WebDriverWait(webDriver, duration)
-                 .until(ExpectedConditions.stalenessOf(webElement));
+                 .until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf((webElement))));
       } catch (NoSuchElementException e) {
          logger.log(Level.WARNING, "Did not find the element ");
       } catch (TimeoutException e) {
@@ -39,6 +39,15 @@ public class DocumentUtils {
       }
       catch (NoSuchElementException | TimeoutException e){
          logger.log(Level.WARNING, " Probably caused by the captcha blocking your ip address ");
+      }
+   }
+   public static void waitToBeClickable(WebElement webElement, WebDriver webDriver, Duration duration){
+      try {
+         new WebDriverWait(webDriver, duration)
+                 .until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(webElement)));
+      }
+      catch (NoSuchElementException | TimeoutException e){
+         logger.log(Level.WARNING, e.getMessage().concat(" Probably caused by the captcha blocking your ip address "));
       }
    }
 }
